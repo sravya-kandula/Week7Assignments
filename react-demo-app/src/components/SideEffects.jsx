@@ -1,62 +1,57 @@
 import { useEffect, useState } from "react";
 
 function SideEffects() {
-  let [users, setUsers] = useState([]);
-  let [error, setError] = useState(null);
-  let [loading, setLoading] = useState(false);
-  console.log("side effect component rendered");
+
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    //side effect
 
     async function getData() {
+
       setLoading(true);
 
-      try {
-        let res = await fetch("https://jsonplaceholder.typicode.com/users");
-        if (res.status !== 200) {
-          throw new Error("Failed to fetch");
-        }
-        let usersData = await res.json();
-        setUsers(usersData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+      const res = await fetch("https://jsonplaceholder.typicode.com/users");
+
+      const data = await res.json();
+
+      setUsers(data);
+
+      setLoading(false);
     }
 
     getData();
+
   }, []);
 
-  if (loading === true) {
-    return <p className="text-red-500 text-4xl">loading...</p>;
-  }
-  if (error !== null) {
-    return <p className="text-red-500 text-4xl">{error}</p>;
-  }
+  if (loading) return <h2>Loading...</h2>;
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Username</th>
+
+    <table className="border mx-auto">
+
+      <thead>
+        <tr>
+          <th className="border p-2">ID</th>
+          <th className="border p-2">Name</th>
+          <th className="border p-2">Username</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {users.map((user) => (
+          <tr key={user.id}>
+            <td className="border p-2">{user.id}</td>
+            <td className="border p-2">{user.name}</td>
+            <td className="border p-2">{user.username}</td>
           </tr>
-        </thead>
-        <tbody>
-          {users.map((userObj) => (
-            <tr key={userObj.id}>
-              <td>{userObj.id}</td>
-              <td>{userObj.name}</td>
-              <td>{userObj.username}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+
+      </tbody>
+
+    </table>
+
   );
 }
 

@@ -1,24 +1,37 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 function AddTask({ addNewTask }) {
-  const { register, handleSubmit,reset } = useForm();
 
-  const onFormSubmit = (taskObj) => {
-    console.log(taskObj);
+  const [taskName, setTaskName] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const taskObj = {
+      taskName
+    };
+
     addNewTask(taskObj);
-    reset()
+    setTaskName("");
   };
 
   return (
-    <div>
-      <h3 className="text-4xl text-amber-400 mb-5">Add Task</h3>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
-        <div className="mb-3">
-          <input type="text" {...register("taskName")} className="border px-3 py-2" placeholder="New task name" />
-        </div>
-        <button className="bg-blue-700 text-lime-100 px-3 py-2 ">Add</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+
+      <h3 className="text-3xl mb-4">Add Task</h3>
+
+      <input
+        type="text"
+        className="border p-2"
+        value={taskName}
+        onChange={(e) => setTaskName(e.target.value)}
+      />
+
+      <button className="bg-green-500 text-white p-2 ml-3">
+        Add
+      </button>
+
+    </form>
   );
 }
 

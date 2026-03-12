@@ -1,25 +1,29 @@
-import AddTask from "./AddTask";
-import TasksCount from "./TasksCount";
-import TasksList from "./TasksList";
 import { useState } from "react";
+import AddTask from "./AddTask";
+import TasksList from "./TasksList";
+import TasksCount from "./TasksCount";
 
 function TaskManager() {
-  //state
-  let [tasks, setTasks] = useState([]);
 
-  //add new task
+  const [tasks, setTasks] = useState([]);
+
   const addNewTask = (taskObj) => {
     setTasks([...tasks, taskObj]);
   };
 
   return (
     <div>
-      <h1 className="text-7xl text-blue-300 mb-10">Task Manager</h1>
+
+      <h1 className="text-5xl text-blue-500 mb-10">Task Manager</h1>
+
       <div className="flex justify-around">
+
         <AddTask addNewTask={addNewTask} />
         <TasksList tasks={tasks} />
         <TasksCount tasks={tasks} />
+
       </div>
+
     </div>
   );
 }
